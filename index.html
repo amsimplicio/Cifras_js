@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Códigos e Cifras</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Códigos e Cifras</h1>
+    <textarea id="input" placeholder="Enter your text"></textarea>
+    <select id="cipher">
+      <option value="caesar">Caesar Cipher</option>
+      <option value="morse">Morse Code</option>
+      <option value="pigpen">Pigpen Cipher</option>
+      <!-- Add more options as needed -->
+    </select>
+    <input type="number" id="shift" placeholder="Shift (Caesar Cipher)" />
+    <button onclick="encode()">Encode</button>
+    <button onclick="decode()">Decode</button>
+    <textarea id="output" placeholder="Output" readonly></textarea>
+  </div>
+  <script src="scripts.js"></script>
+</body>
+</html>

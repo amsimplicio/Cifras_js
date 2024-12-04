@@ -8,8 +8,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>Scout Cipher Tool</h1>
-    <textarea id="input" placeholder="Enter your text"></textarea>
+    <h1>Códigos e Cifras</h1>
+    <textarea id="input" placeholder="Texto a ser codificado/descodificado"></textarea>
     <select id="cipher" onchange="updateExplanation()">
       <option value="" selected disabled>Select a cipher</option>
       <option value="caesar">Caesar Cipher</option>
@@ -19,8 +19,8 @@
     </select>
     <input type="number" id="shift" placeholder="Shift (Caesar Cipher)" />
     <p id="cipher-explanation" class="explanation"></p>
-    <button onclick="encode()">Encode</button>
-    <button onclick="decode()">Decode</button>
+    <button onclick="encode()">Codificar</button>
+    <button onclick="decode()">Descodificar</button>
     <textarea id="output" placeholder="Output" readonly></textarea>
   </div>  
   <script src="scripts.js"></script>

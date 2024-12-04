@@ -15,9 +15,12 @@ body {
   
   textarea, select, input, button {
     width: 100%;
-    margin: 10px 0;
+    margin: 10px 0px;
     padding: 10px;
     font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
   }
   
   button {
@@ -31,4 +34,13 @@ body {
   button:hover {
     background-color: #45a049;
   }
-  
+  .explanation {
+    font-style: italic;
+    color: #555;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+  }
+    

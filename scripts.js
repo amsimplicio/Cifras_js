@@ -30,6 +30,22 @@ V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..', '1': '.----',
 '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....',
 '7': '--...', '8': '---..', '9': '----.', '0': '-----'
 };
+const RomanoArabe = {"a":"I", "e": "II", "i": "III", "o": "IV", "u": "V",
+  'b': '1', 'c': '2', 'd': '3', 'f': '4', 'g': '5', 'h': '6',
+  'j': '7', 'k': '8', 'l': '9', 'm': '10', 'n': '11', 'p': '12',
+  'q': '13', 'r': '14', 's': '15', 't': '16', 'v': '17', 'w': '18',
+  'x': '19', 'y': '20', 'z': '21', " ": ""}
+const reverse_RomanoArabe = {
+  'I': 'a', 'II': 'e', 'III': 'i', 'IV': 'o', 'V': 'u',  /* Roman numerals to vowels */
+  '1': 'b', '2': 'c', '3': 'd', '4': 'f', '5': 'g', '6': 'h',  /* Custom numbers to consonants  */
+  '7': 'j', '8': 'k', '9': 'l', '10': 'm', '11': 'n', '12': 'p',
+  '13': 'q', '14': 'r', '15': 's', '16': 't', '17': 'v', '18': 'w',
+  '19': 'x', '20': 'y', '21': 'z', "": " "
+  }
+
+
+
+
 const reverseMorse = Object.fromEntries(Object.entries(MORSE_CODE).map(([k, v]) => [v, k]));
 function caesar_encode(text, parameter) {
 return caesarCipher(text, parameter, true);
@@ -41,15 +57,60 @@ function morse_encode(text) {
 return text.split('').map(char => MORSE_CODE[char.toUpperCase()] || char).join(' ');
 }
 function morse_decode(text) {
-return text.split(' ').map(code => reverseMorse[code] || code).join('');
+return text.split(' ').map(code => reverseMorse[code] ).join('');
 }
 
 function identity(text) {
   return text
 }
 function unvailable_decode(text) {
-  return "Descodificação não disponível para esta cifra";}
+  return "Descodificação não disponível para esta cifra";
+}
 
+function reverse(text) {
+  return text.split('').reverse().join(''); 
+}
+function metades_encode(text) {
+
+    // Remove spaces from the input text
+    text = text.replace(/ /g, "");
+    
+    // Use slicing to get characters at even and odd indices
+    let first = "", second = "";
+    for (let i = 0; i < text.length; i++) {
+      if (i % 2 === 0) {
+        first += text[i];  // Characters at even indices
+      } else {
+        second += text[i]; // Characters at odd indices
+      }
+    }
+    
+    return `${first} ${second}`;
+
+}
+
+function metades_decode(text) {
+  // Split the encoded text into two parts
+  const [first, second] = text.split(" ");
+  
+  // Interleave characters from both parts using a loop
+  let result = "";
+  let maxLength = Math.max(first.length, second.length);
+  
+  for (let i = 0; i < maxLength; i++) {
+    if (i < first.length) result += first[i];
+    if (i < second.length) result += second[i];
+  }
+
+  return result;
+}
+
+function RomanoArabe_encode(text) {
+  return text.split('').map(char => RomanoArabe[char.toLowerCase()] || char).join(' ');
+}
+function RomanoArabe_decode(text) {
+  return text.split(' ').map(char => reverse_RomanoArabe[char] || char).join('');  
+}
 
 
 
@@ -73,8 +134,25 @@ const ciphers = {
     name: "Angular",
     encode: identity ,
     decode: identity
-  }
+  },
+  reverse: {
+    explanation: "As letras e as palavras são escritas ao contrário",
+    name: "Caranguejo",
+    encode: reverse,
+    decode: reverse
+  }, 
+  metades: {
+    explanation: "As letras da mensagem são dispostas alternadamente numa tabela de duas colunas.",
+    name: "Metades",
+    encode: metades_encode,
+    decode: metades_decode  },
+  RomanoArabe: {
+    explanation: "As vogais são numeradas em romano, e as consoantes em árabe.",
+    name: "Romano Arabe",
+    encode: RomanoArabe_encode,
+    decode: RomanoArabe_decode}
   };
+
 const requireParam = new Set(["caesar"]);
 
 // TODO: acabar esta função 

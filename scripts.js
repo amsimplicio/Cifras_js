@@ -44,7 +44,11 @@ function morse_decode(text) {
 return text.split(' ').map(code => reverseMorse[code] || code).join('');
 }
 
-
+function identity(text) {
+  return text
+}
+function unvailable_decode(text) {
+  return "Descodificação não disponível para esta cifra";}
 
 
 
@@ -63,13 +67,13 @@ const ciphers = {
     name: "Morse Code",
     encode: morse_encode,
     decode: morse_decode
+  },
+  pigpen:{
+    explanation: "Segue a seguinte imagem: <br> <img src='images/Pigpen.png' >",
+    name: "Angular",
+    encode: identity ,
+    decode: identity
   }
-  /*pigpen:{
-    explanation: "The Pigpen Cipher replaces letters with symbols derived from a grid or shapes. Each letter has a corresponding unique symbol.",
-    name: "Pigpen Cipher",
-    encode: caesar_encode,
-    decode: caeser_decode
-  }*/
   };
 const requireParam = new Set(["caesar"]);
 
@@ -89,7 +93,13 @@ function populateCipherDropdown() {
 function updateExplanation() {
   const cipher = document.getElementById("cipher").value;
   const explanationElement = document.getElementById("cipher-explanation");
-  explanationElement.textContent = ciphers[cipher]["explanation"] || "Select a cipher to see its explanation.";
+  explanationElement.innerHTML = ciphers[cipher]?.explanation || "Select a cipher to see its explanation.";
+  if (cipher === 'pigpen') {
+    output.classList.add('pigpen-font'); // Apply the Pigpen font to output
+  } else {
+    output.classList.remove('pigpen-font'); // Remove the Pigpen font if another cipher is selected
+  }
+
 }
 
 function updateParameterVisibility() {

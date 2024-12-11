@@ -1,5 +1,6 @@
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const reverseAlphabet = alphabet.split('').reverse().join('');
 function caesarCipher(text, parameter, encode = true) {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var shift = alphabet.indexOf(parameter.charAt(0));
   shift = encode ? shift : -shift; // Reverse shift for decoding
   //shift = 3;
@@ -20,6 +21,47 @@ function caesarCipher(text, parameter, encode = true) {
     })
     .join('');
 }
+
+function numerico_encode(text, parameter) {
+
+  var shift = parseInt(parameter);
+
+  return text
+    .split('')
+    .map(char => {
+      const upperChar = char.toUpperCase(); // Convert to uppercase for indexing
+      const index = alphabet.indexOf(upperChar);
+
+      if (index === -1) return char; // Keep non-alphabetic characters as is
+
+      return index + shift; // withtout loop
+      
+
+      
+    })
+    .join(' ');
+}
+
+function numerico_decode(text, parameter) {   
+return text.split('   ').map(word =>   word.split(' ').map(char => alphabet[parseInt(char) - parseInt(parameter)] || char).join('')).join(' ')
+// splitting into words first so that triple spaces represent a single space
+}
+
+function numericoLoop_encode(text, parameter) {
+
+  var shift = parseInt(parameter);
+  return text.split('').map(char => {
+    const upperChar = char.toUpperCase(); // Convert to uppercase for indexing
+    const index = alphabet.indexOf(upperChar);
+    if (index === -1) return char; // Keep non-alphabetic characters as is
+    return (index + shift -1) % 26 +1; // with loop -1 and +1 so that it goes from 1 to 26 and not 0 to 25
+  }).join(' ');
+}
+
+function numericoLoop_decode(text, parameter) {   
+  return text.split('   ').map(word =>   word.split(' ').map(char => alphabet[(parseInt(char) - parseInt(parameter) +26) % 26] || (parseInt(char) - parseInt(parameter) +26) %26 ).join('')).join(' ')
+  // splitting into words first so that triple spaces represent a single space
+  }
 
 
 const MORSE_CODE = {
@@ -111,7 +153,9 @@ function RomanoArabe_encode(text) {
 function RomanoArabe_decode(text) {
   return text.split(' ').map(char => reverse_RomanoArabe[char] || char).join('');  
 }
-
+function AlfabetoInvertido(text) {
+return text.split('').map(char => reverseAlphabet[alphabet.indexOf(char.toUpperCase())] || char).join('');
+}
 
 
 // Cipher explanations
@@ -145,15 +189,35 @@ const ciphers = {
     explanation: "As letras da mensagem são dispostas alternadamente numa tabela de duas colunas.",
     name: "Metades",
     encode: metades_encode,
-    decode: metades_decode  },
+    decode: metades_decode 
+  },
   RomanoArabe: {
     explanation: "As vogais são numeradas em romano, e as consoantes em árabe.",
     name: "Romano Arabe",
     encode: RomanoArabe_encode,
-    decode: RomanoArabe_decode}
+    decode: RomanoArabe_decode
+  },
+  numerico:{
+    explanation: "Cada letra do alfabeto corresponde a um número. Para identificar o código é preciso dar a chave. Se, por exemplo, a chave do código for 12, A = 12, B = 13, C = 14 ... Z = 37",
+    name: "Numerico sem Loop",
+    encode: numerico_encode,
+    decode: numerico_decode
+  }, 
+  numericoLoop: {
+    explanation: "Cada letra do alfabeto corresponde a um número, a partir do 26 volta para o 1. Para identificar o código é preciso dar a chave. Se, por exemplo, a chave do código for 12, A = 12, B = 13, C = 14 ..., N = 25, O = 26, P = 1, Q = 2,...",
+    name: "Numerico com Loop",
+    encode: numericoLoop_encode,
+    decode: numericoLoop_decode
+  },
+  AlfabetoInvertido: { 
+    explanation: "Por baixo do alfabeto nomal, escreve-se o mesmo alfabeto, mas invertido. As letras de baixo são a codificação das de cima.",
+    name: "Alfabeto Invertido",
+    encode: AlfabetoInvertido,
+    decode: AlfabetoInvertido
+  }
   };
 
-const requireParam = new Set(["caesar"]);
+const requireParam = new Set(["caesar", "numerico", "numericoLoop"]);
 
 // TODO: acabar esta função 
 function populateCipherDropdown() {
